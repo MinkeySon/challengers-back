@@ -17,7 +17,7 @@ public class Club extends BaseEntity {
     @Column(name = "club_id")
     private Long id;
 
-    @Column(nullable = false, name = "club_name")
+    @Column(nullable = false, name = "club_name",unique = true)
     private String clubName;
 
     @Column(name = "logo_url")
@@ -30,7 +30,7 @@ public class Club extends BaseEntity {
     private String clubForm;
 
     @Column(name ="club_approved",nullable = false)
-    private Integer clubApproved;
+    private boolean clubApproved=false;
 
     @ManyToOne
     @JoinColumn(name = "clubManager") /*클럽 생성자 (User 외래키)*/

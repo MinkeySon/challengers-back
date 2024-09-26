@@ -41,6 +41,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/v1/project/create").hasRole("USER")
                 .antMatchers("/api/v1/project/update").hasRole("USER")
                 .antMatchers("/api/v1/project/remove").hasRole("USER")
+                .antMatchers("/api/v1/project/tech-stacks").permitAll()
 
 //                ProjectCrew
                 .antMatchers("/api/v1/project-crews/**").permitAll()
@@ -53,22 +54,33 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/v1/user/remove").hasRole("USER")
                 .antMatchers("/api/v1/user/update").hasRole("USER")
 
+//                MyPage
+                .antMatchers("/api/v1/mypage/**").hasRole("USER")
+
 //                Club
                 .antMatchers("/api/v1/club/get/logo/all").permitAll()
                 .antMatchers("/api/v1/club/list").permitAll()
-                .antMatchers("/api/v1/club/get").hasRole("USER")
+                .antMatchers("/api/v1/club/get").permitAll()
+                .antMatchers("/api/v1/members/{clubId}").hasRole("USER")
                 .antMatchers("/api/v1/club/create").hasRole("USER")
                 .antMatchers("/api/v1/club/update").hasRole("USER")
                 .antMatchers("/api/v1/club/remove").hasRole("USER")
                 .antMatchers("/api/v1/club/addMember").hasRole("USER")
                 .antMatchers("/api/v1/club/updateMember").hasRole("USER")
                 .antMatchers("/api/v1/club/deleteMember").hasRole("USER")
-                .antMatchers("/api/v1/pending/requests/users/{clubId}").hasRole("USER")
-                .antMatchers("/accept/join-requests/{clubId}").hasRole("USER")
-                .antMatchers("/reject/join-requests/{clubId}").hasRole("USER")
+                .antMatchers("/api/v1/club/join-requests/pending/users/{clubId}").hasRole("USER")
+                .antMatchers("/api/v1/club/join-requests/accept/{clubId}").hasRole("USER")
+                .antMatchers("/api/v1/club/join-requests/reject/{clubId}").hasRole("USER")
+                .antMatchers("/api/v1/club/join-requests/comment/{requestId}").hasRole("USER")
+                .antMatchers("/api/v1/club/verify-club").hasRole("USER")
+
+//                Admin
+                .antMatchers("/api/v1/admin/sign").permitAll()
+                .antMatchers("/api/v1/admin/set").permitAll()
+                .antMatchers("/api/v1/admin/**").hasRole("ADMIN")
 
 
-                .anyRequest().hasRole("USER")
+                .anyRequest().permitAll()
                 .and()
                 .exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler())
                 .and()

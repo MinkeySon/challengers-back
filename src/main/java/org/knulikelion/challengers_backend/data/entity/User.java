@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,7 +19,7 @@ import java.util.stream.Collectors;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@ToString(exclude = "clubs")
 @Builder
 @Entity
 @Table(name = "user")
@@ -28,7 +29,7 @@ public class User extends BaseEntity implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false,unique = true)
     private String userName;
 
     @JsonProperty(access = Access.WRITE_ONLY) /*Json 결과 출력 x*/
@@ -37,6 +38,10 @@ public class User extends BaseEntity implements UserDetails {
 
     @Column(nullable = false,unique = true)
     private String email; /*서비스 내에서 사용할 uid*/
+
+    @Column
+    @ColumnDefault("true")
+    private boolean useAble;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default

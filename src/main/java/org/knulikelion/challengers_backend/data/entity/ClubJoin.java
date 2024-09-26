@@ -3,6 +3,7 @@ package org.knulikelion.challengers_backend.data.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.knulikelion.challengers_backend.data.enums.JoinRequestStatus;
 
 import javax.persistence.*;
 
@@ -22,6 +23,9 @@ public class ClubJoin {
 
     @Column(name = "accepted", nullable = false)
     private boolean accepted = false;
+
+    @Column(columnDefinition = "LONGTEXT")
+    private String comments;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

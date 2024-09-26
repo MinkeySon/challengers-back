@@ -2,7 +2,9 @@ package org.knulikelion.challengers_backend.data.dto.response;
 
 import lombok.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Data
 @NoArgsConstructor
@@ -15,11 +17,12 @@ public class ProjectResponseDto {
     private String projectDescription;
     private String projectDetail;
     private String imageUrl;
-    private Integer projectStatus;
+    private String projectStatus;
     private String ProjectPeriod;
     private List<ProjectTechStackResponseDto> projectTechStack;
     private List<ProjectLinkResponseDto> projectLink;
-    private List<ProjectCrewResponseDto> projectCrew;
+    @Builder.Default
+    private Map<String, List<ProjectCrewResponseDto>> projectCrew = new HashMap<>();
     private String projectCategory;
     private String createdAt;
     private String updatedAt;
@@ -27,3 +30,5 @@ public class ProjectResponseDto {
     private Integer belongedClubId;
     private String belongedClubName;
 }
+
+/*private List<ProjectCrewResponseDto> projectCrew;*/

@@ -2,9 +2,11 @@ package org.knulikelion.challengers_backend.data.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
+import org.knulikelion.challengers_backend.data.enums.ProjectStatus;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.Month;
+import java.util.List;
 
 @Entity
 @Getter
@@ -22,7 +24,7 @@ public class Project extends BaseEntity{
     @Column(nullable = false)
     private String imageUrl;
 
-    @Column(nullable = false)
+    @Column(nullable = false,unique = true)
     private String projectName;
 
     @Column(nullable = false)
@@ -32,13 +34,17 @@ public class Project extends BaseEntity{
     private String projectDetail;
 
     @Column(nullable = false)
-    private Integer projectStatus;
+    @Enumerated(EnumType.STRING)
+    private ProjectStatus status = ProjectStatus.MAINTENCE;
 
     @Column(nullable = false)
     private String projectPeriod;
 
     @Column(nullable = false)
     private String projectCategory;
+
+    @Column(nullable = true)
+    private int updateCount = 0;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
@@ -47,4 +53,10 @@ public class Project extends BaseEntity{
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "club_id")
     private Club club;
+
+    @OneToMany(mappedBy = "project")
+    private List<ProjectTechStack> techStacks;
+
+    @OneToMany(mappedBy = "project")
+    private List<MonthlyViews> monthlyViews;
 }

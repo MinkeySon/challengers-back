@@ -41,8 +41,9 @@ jobs:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.SSH_PRIVATE_KEY }}
+        port : 1030
         script: |
           docker stop challengers-backend
           docker rm challengers-backend
           docker pull ${{ secrets.DOCKER_REPO }}/challengers-backend:latest
-          docker run -d -p 8080:8080 --name challengers-backend ${{ secrets.DOCKER_REPO }}/challengers-backend:latest
+          docker run -d -p 8080:8080 --net challengers --name challengers-backend ${{ secrets.DOCKER_REPO }}/challengers-backend:latest

@@ -8,8 +8,7 @@ import org.knulikelion.challengers_backend.data.dto.response.UserResponseDto;
 import org.knulikelion.challengers_backend.data.entity.Club;
 import org.knulikelion.challengers_backend.data.entity.User;
 import org.knulikelion.challengers_backend.service.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -20,6 +19,8 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService {
     private final UserDAO userDAO;
+
+    @Autowired
     public UserServiceImpl(UserDAO userDAO) {
         this.userDAO = userDAO;
     }
@@ -54,25 +55,9 @@ public class UserServiceImpl implements UserService {
             return userResponseDto;
         }
     }
-    @Override
-    public ResultResponseDto removeUser(Long id) {
-        ResultResponseDto resultResponseDto = new ResultResponseDto();
-
-        if(userDAO.selectUserById(id).isEmpty()){
-            resultResponseDto.setCode(1);
-            resultResponseDto.setMsg("유저가 존재하지 않음");
-        }else{
-            userDAO.removeUser(id);
-            resultResponseDto.setCode(0);
-            resultResponseDto.setMsg("유저 삭제");
-        }
-        return resultResponseDto;
-    }
-
 
     @Override
     public ResultResponseDto updateUser(Long id, UserRequestDto userRequestDto) throws Exception {
-        LocalDateTime currentTime = LocalDateTime.now();
 
         Optional<User> selectedUser = userDAO.selectUserById(id);
 
